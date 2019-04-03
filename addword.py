@@ -39,6 +39,8 @@ class AddAnagram(webapp2.RequestHandler):
         if self.request.get('submit') == 'Submit':
 
             getUserName = users.get_current_user()
+            myuser_key = ndb.Key('MyUser', getUserName.user_id())
+            myuser = myuser_key.get()
 
             getLexicographicalWord = self.request.get('anagram_word').lower()
             anagramWordLetterLength = len(getLexicographicalWord)
@@ -51,12 +53,17 @@ class AddAnagram(webapp2.RequestHandler):
 
             if retriveAnagramWord == None:
 
+                userSpecificAnagramCount = MyUser(id=getUserName.user_id(), anagramwordlistcount = myuser.anagramwordlistcount+1,
+                                                  anagramuniquewordcount = myuser.anagramuniquewordcount+1,
+                                                  username=getUserName.email())
+
                 storedatabase = MyAnagramDatabase(id=keyName, orderedword=lexicographicalOrderedAnagramWord,
                                                   lettercount = anagramWordLetterLength, useremailid = getUserName,
                                                   wordcount = 1)
-                # storecountdatabase = MyUser(anagramuniquewordcount = 1)
+
                 storedatabase.anagramwordlist.append(getLexicographicalWord)
-                # storecountdatabase.put()
+
+                userSpecificAnagramCount.put()
                 storedatabase.put()
 
                 template_values = {
@@ -80,11 +87,17 @@ class AddAnagram(webapp2.RequestHandler):
                     self.response.write(template.render(template_values))
 
                 else:
+                    userSpecificAnagramCount = MyUser(id=getUserName.user_id(),
+                                                      anagramuniquewordcount = myuser.anagramuniquewordcount,
+                                                      anagramwordlistcount = myuser.anagramwordlistcount+1,
+                                                      username=getUserName.email())
+
                     retriveAnagramListLength = len(retriveAnagramWord.anagramwordlist)
                     retriveAnagramWord.wordcount = retriveAnagramListLength + 1
 
                     retriveAnagramWord.anagramwordlist.append(getLexicographicalWord)
-
+                    
+                    userSpecificAnagramCount.put()
                     retriveAnagramWord.put()
 
                     template_values = {

@@ -13,6 +13,9 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True
 )
 
+anagramUniqueWordCount = ''
+anagramWordListCount = ''
+
 def ReorderingWord(unorderedWord):
     lexicographicalOrderedWord = ''.join(sorted(unorderedWord))
     return lexicographicalOrderedWord
@@ -24,6 +27,8 @@ class MainPage(webapp2.RequestHandler):
         url_string = ''
         welcome = 'Welcome'
         myuser = ''
+        global anagramUniqueWordCount
+        global anagramWordListCount
 
         user = users.get_current_user()
 
@@ -36,8 +41,13 @@ class MainPage(webapp2.RequestHandler):
 
             if myuser == None:
                 welcome = 'Welcome to the application'
-                myuser = MyUser(id=user.user_id(), username=user.email())
+                myuser = MyUser(id=user.user_id(), username=user.email(),
+                                anagramwordlistcount=0, anagramuniquewordcount=0)
                 myuser.put()
+
+            anagramUniqueWordCount = myuser.anagramuniquewordcount
+            anagramWordListCount = myuser.anagramwordlistcount
+
         else:
             url = users.create_login_url(self.request.uri)
             url_string = 'Login'
@@ -47,7 +57,9 @@ class MainPage(webapp2.RequestHandler):
          'url_string' : url_string,
          'user' : user,
          'welcome' : welcome,
-         'myuser' : myuser
+         'myuser' : myuser,
+         'uniqueanagramwordcurrentdata' : anagramUniqueWordCount,
+         'anagramwordlistcurrentdata' : anagramWordListCount
         }
 
         template = JINJA_ENVIRONMENT.get_template('main.html')
@@ -76,7 +88,9 @@ class MainPage(webapp2.RequestHandler):
                  'anagram_Word_List_message' : 'Anagram word list is empty',
                  'url' : url,
                  'user' : getUserName,
-                 'welcome' : welcome
+                 'welcome' : welcome,
+                 'uniqueanagramwordcurrentdata' : anagramUniqueWordCount,
+                 'anagramwordlistcurrentdata' : anagramWordListCount
                 }
                 template = JINJA_ENVIRONMENT.get_template('main.html')
                 self.response.write(template.render(template_values))
@@ -87,7 +101,9 @@ class MainPage(webapp2.RequestHandler):
                  'anagram_Word_Count' : len(retriveAnagramWord.anagramwordlist),
                  'url' : url,
                  'user' : getUserName,
-                 'welcome' : welcome
+                 'welcome' : welcome,
+                 'uniqueanagramwordcurrentdata' : anagramUniqueWordCount,
+                 'anagramwordlistcurrentdata' : anagramWordListCount
                 }
                 template = JINJA_ENVIRONMENT.get_template('main.html')
                 self.response.write(template.render(template_values))

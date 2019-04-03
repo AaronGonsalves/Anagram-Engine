@@ -26,8 +26,15 @@
     <!-- {% if user %} -->
     <center>{{ welcome }} {{ user.email() }} </center><br/>
     <center>Below is the Anagram System</center><br/>
+    <center>
+      <table>
+        <tr>
+          <td>Unique Anagram Word : {{ uniqueanagramwordcurrentdata }}</td>
+          <td>Anagram word List : {{ anagramwordlistcurrentdata }}</td>
+        </tr>
+      </table>
+    </center>
   <center>
-
     <br/> To Add Word :
     <a href="/addword" class="button" >ADD WORD</a><br/></center>
     <form method="post" action="/">
