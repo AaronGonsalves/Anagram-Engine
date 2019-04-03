@@ -1,0 +1,39 @@
+<html>
+ <head>
+   <meta charset="utf-8">
+   <title>Add Anagram Word</title>
+   <style>
+   * {
+     font-family: verdana;
+   }
+   .button {
+     background-color: #4CAF50;
+     border: none;
+     color: white;
+     padding: 5px 15px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     font-size: 16px;
+     margin: 4px 2px;
+     cursor: pointer;
+     }</style>
+ </head>
+     <body style='font-family="verdana"'>
+       <center>
+         <strong> Add your word below <br/><br/></strong></center>
+       <form method="post" action="/addword">
+         <center> Note : Length of the word should not be less than 3 charater </center>
+         <center> Anagram Word :<input type="text" name="anagram_word" required="True" pattern="[A-Za-z]{3,}"/>
+           <!-- pattern=".{3,}" -->
+           <!-- pattern="(?=.*[a-z])(?=.*[A-Z]).{2,}" -->
+           <!-- pattern="([a-zA-Z])+.{2,}" -->
+         <input class="button" type="submit" name="submit" value="Submit"/></center>
+
+       </form>
+     <form method="post" action="/addword">
+      <center> <input class="button" type="submit" name="button" value="Back"> </center>
+    </form>
+
+    </body>
+</html>

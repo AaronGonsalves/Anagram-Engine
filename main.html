@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>User login/logout with datastore</title>
+    <style>
+    * {
+      font-family: verdana;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 5px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      }</style>
+  </head>
+  <body style='font-family="verdana"'><br/>
+    <!-- {% if user %} -->
+    <center>{{ welcome }} {{ user.email() }} </center><br/>
+    <center>Below is the Anagram System</center><br/>
+  <center>
+
+    <br/> To Add Word :
+    <a href="/addword" class="button" >ADD WORD</a><br/></center>
+    <form method="post" action="/">
+      <br/> <center>To Search Anagram :
+      <input type="text" name="anagram_word_search" required="True" pattern="[A-Za-z]{3,}"/>
+      <input class="button" type="submit" name="search" value="Search"/></center>
+    </form>
+
+    <!-- {% else %}
+      <center><p>Hello welcome to the application</p></center>
+    {% endif %} -->
+
+    <center><div style ="color: red">
+      {% if error %}
+      <div class="alert alert-success">
+          <strong>Failed!</strong></a>
+      </div>
+      <p>{{ error }}</p>
+      {% endif %}
+    </div></center>
+
+    <center><div style ="color: green">
+      {% if success %}
+      <div class="alert alert-success">
+          <strong>Successfully!</strong></a>
+      </div>
+      <p>{{ success }}</p>
+      {% endif %}
+    </div></center>
+
+  <div>
+    <center>
+    {% if anagram_Word_List|length > 0 %}
+    {% for anagram_word_display in anagram_Word_List %}
+    {{ loop.index }}
+    ) Anagram Word : {{ anagram_word_display }}</br>
+    {% endfor %}
+    {% else %}
+    {{ anagram_Word_List_message }}
+    {% endif %}
+    <center>
+  </div>
+<center><p>You can {{ url_string }} : <a href='{{ url }}' class="button">CLICK</a></p></center>
+
+  </body>
+</html>
