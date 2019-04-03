@@ -25,15 +25,14 @@
        <form method="post" action="/addword">
          <center> Note : Length of the word should not be less than 3 charater </center>
          <center> Anagram Word :<input type="text" name="anagram_word" required="True" pattern="[A-Za-z]{3,}"/>
-           <!-- pattern=".{3,}" -->
-           <!-- pattern="(?=.*[a-z])(?=.*[A-Z]).{2,}" -->
-           <!-- pattern="([a-zA-Z])+.{2,}" -->
          <input class="button" type="submit" name="submit" value="Submit"/></center>
-
        </form>
      <form method="post" action="/addword">
       <center> <input class="button" type="submit" name="button" value="Back"> </center>
     </form>
-
+    <form method="post" action="/addword" enctype="multipart/form-data">
+     <center> <input type="file" name="file">
+        <input class="button" type="submit" name="button" value="Upload"> </center>
+   </form>
     </body>
 </html>
