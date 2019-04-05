@@ -5,6 +5,7 @@ from google.appengine.ext import ndb
 from myuser import MyUser
 from myuser import MyAnagramDatabase
 from addword import AddAnagram
+from subanagramsearch import SubAnagramWord
 import os
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -23,12 +24,12 @@ def ReorderingWord(unorderedWord):
 class MainPage(webapp2.RequestHandler):
     def get(self):
         self.response.headers['content-Type'] = 'text/html'
-        url = ''
-        url_string = ''
-        welcome = 'Welcome'
-        myuser = ''
         global anagramUniqueWordCount
         global anagramWordListCount
+        welcome = 'Welcome'
+        url_string = ''
+        myuser = ''
+        url = ''
 
         user = users.get_current_user()
 
@@ -61,13 +62,12 @@ class MainPage(webapp2.RequestHandler):
          'uniqueanagramwordcurrentdata' : anagramUniqueWordCount,
          'anagramwordlistcurrentdata' : anagramWordListCount
         }
-
         template = JINJA_ENVIRONMENT.get_template('main.html')
         self.response.write(template.render(template_values))
 
     def post(self):
-
         welcome = 'Welcome'
+        getUserName = users.get_current_user()
         url = users.create_login_url(self.request.uri)
         self.response.headers['content-Type'] = 'text/html'
 
@@ -76,8 +76,6 @@ class MainPage(webapp2.RequestHandler):
             getLexicographicalWord = self.request.get('anagram_word_search')
             lexicographicalOrderedAnagramWord = ReorderingWord(getLexicographicalWord)
 
-            getUserName = users.get_current_user()
-
             keyName = getUserName.user_id()+lexicographicalOrderedAnagramWord
 
             retriveAnagramWordKey = ndb.Key(MyAnagramDatabase, keyName)
@@ -85,30 +83,31 @@ class MainPage(webapp2.RequestHandler):
 
             if retriveAnagramWord == None:
                 template_values = {
-                 'anagram_Word_List_message' : 'Anagram word list is empty',
                  'url' : url,
                  'user' : getUserName,
                  'welcome' : welcome,
                  'uniqueanagramwordcurrentdata' : anagramUniqueWordCount,
-                 'anagramwordlistcurrentdata' : anagramWordListCount
+                 'anagramwordlistcurrentdata' : anagramWordListCount,
+                 'anagram_Word_List_message' : 'Anagram word list is empty'
                 }
                 template = JINJA_ENVIRONMENT.get_template('main.html')
                 self.response.write(template.render(template_values))
 
             else:
                 template_values = {
-                 'anagram_Word_List' : retriveAnagramWord.anagramwordlist,
-                 'anagram_Word_Count' : len(retriveAnagramWord.anagramwordlist),
                  'url' : url,
                  'user' : getUserName,
                  'welcome' : welcome,
                  'uniqueanagramwordcurrentdata' : anagramUniqueWordCount,
-                 'anagramwordlistcurrentdata' : anagramWordListCount
+                 'anagramwordlistcurrentdata' : anagramWordListCount,
+                 'anagram_Word_List' : retriveAnagramWord.anagramwordlist,
+                 'anagram_Word_Count' : len(retriveAnagramWord.anagramwordlist)
                 }
                 template = JINJA_ENVIRONMENT.get_template('main.html')
                 self.response.write(template.render(template_values))
 
 app = webapp2.WSGIApplication([
     ('/',MainPage),
-    ('/addword', AddAnagram)
+    ('/addword', AddAnagram),
+    ('/subanagramsearch',SubAnagramWord)
     ], debug=True)

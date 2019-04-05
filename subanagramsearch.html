@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Search Sub-Anagram Word</title>
+    <style>
+    * {
+      font-family: verdana;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 5px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      }</style>
+  </head>
+
+  <body style='font-family="verdana"'><br/>
+    <center>
+      <strong> Search Sub-anagram Word <br/></strong>
+      <form method="post" action="/subanagramsearch">
+      <br/> Search Sub-anagram :
+        <input type="text" name="sub_anagram_word_search" required="True" pattern="[A-Za-z]{3,}"/>
+        <input class="button" type="submit" name="sub_search" value="Search"/>
+      </form>
+    </center>
+
+    <div>
+      <center>
+      {% if anagram_Word_List|length > 0 %}
+        {% for anagram_word_display in anagram_Word_List %}
+          {{ loop.index }}
+          ) Anagram Word : {{ anagram_word_display }}</br>
+        {% endfor %}
+      {% else %}
+        {{ sub_anagram_word_search_message }}
+      {% endif %}
+      <center>
+    </div></br>
+
+    <form method="post" action="/subanagramsearch">
+      <center> <input class="button" type="submit" name="button" value="Back"> </center>
+    </form>
+
+  </body>
+</html>

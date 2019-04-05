@@ -17,6 +17,7 @@ def ReorderingWord(unorderedWord):
     return lexicographicalOrderedWord
 
 def storingAnagramWord(getLexicographicalWord, self):
+
     getUserName = users.get_current_user()
     myuser_key = ndb.Key('MyUser', getUserName.user_id())
     myuser = myuser_key.get()
@@ -45,7 +46,8 @@ def storingAnagramWord(getLexicographicalWord, self):
         storedatabase.put()
 
         template_values = {
-            'success' : 'Word added successfully to the system'
+            'success' : 'Word added successfully to the system',
+            'getLexicographicalWordPrint' : getLexicographicalWord
         }
         template = JINJA_ENVIRONMENT.get_template('main.html')
         self.response.write(template.render(template_values))
@@ -59,7 +61,8 @@ def storingAnagramWord(getLexicographicalWord, self):
 
         if counterWordExist == 1:
             template_values = {
-                'error' : 'Word already exist in the system'
+                'error' : 'Word already exist in the system',
+                'storedAnagramWordPrint' : storedAnagramWord
             }
             template = JINJA_ENVIRONMENT.get_template('main.html')
             self.response.write(template.render(template_values))
@@ -79,7 +82,8 @@ def storingAnagramWord(getLexicographicalWord, self):
             retriveAnagramWord.put()
 
             template_values = {
-                'success' : 'Word added successfully to the system'
+                'success' : 'Word added successfully to the system',
+                'getLexicographicalWordPrint' : getLexicographicalWord
             }
             template = JINJA_ENVIRONMENT.get_template('main.html')
             self.response.write(template.render(template_values))
@@ -96,7 +100,6 @@ class AddAnagram(webapp2.RequestHandler):
         template_values = {
          'myuser' : myuser
         }
-
         template = JINJA_ENVIRONMENT.get_template('addword.html')
         self.response.write(template.render(template_values))
 
@@ -111,11 +114,13 @@ class AddAnagram(webapp2.RequestHandler):
 
         if self.request.get('button') == 'Upload':
             self.response.headers['content-Type'] = 'text/html'
-            readingTextFile = self.request.POST['file']
+            readingTextFile = self.request.POST['anagramfileupload']
             splitingTheWordInList = readingTextFile.value.split("\n")
+
             for takingSingleWord in splitingTheWordInList:
-                if takingSingleWord.isalpha():
-                    storingAnagramWord(takingSingleWord, self)
+                if takingSingleWord.isalpha() and len(takingSingleWord) >= 3:
+                    lowertakingSingleWord = takingSingleWord.lower()
+                    storingAnagramWord(lowertakingSingleWord, self)
 
         if self.request.get('button') == 'Back':
             self.redirect('/')
