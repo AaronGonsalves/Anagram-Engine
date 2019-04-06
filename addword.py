@@ -36,9 +36,8 @@ def storingAnagramWord(getLexicographicalWord, self):
                                               anagramuniquewordcount = myuser.anagramuniquewordcount+1,
                                               username=getUserName.email())
 
-        storedatabase = MyAnagramDatabase(id=keyName, orderedword=lexicographicalOrderedAnagramWord,
-                                              lettercount = anagramWordLetterLength, useremailid = getUserName,
-                                              wordcount = 1)
+        storedatabase = MyAnagramDatabase(id=keyName, lettercount = anagramWordLetterLength, useremailid = getUserName,
+                                          wordcount = 1)
 
         storedatabase.anagramwordlist.append(getLexicographicalWord)
 

@@ -29,7 +29,6 @@ def subanagramWordShuffle(getLexicographicalSubAnagramWord, subanagramWordSizeSh
         else:
             return
         createSubAnagramWordList[singleWordCounter] = createSubAnagramWordList[singleWordCounter] + 1
-        print(createSubAnagramWordList[singleWordCounter])
         for singleWordCounterPlus in range(singleWordCounter+1, subanagramWordSizeShuffle):
             createSubAnagramWordList[singleWordCounterPlus] = createSubAnagramWordList[singleWordCounterPlus-1] + 1
         yield tuple(splittingSubAnagramWordToLetter[singleWordCounter] for singleWordCounter in createSubAnagramWordList)

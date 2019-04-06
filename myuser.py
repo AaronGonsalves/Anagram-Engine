@@ -9,5 +9,4 @@ class MyAnagramDatabase(ndb.Model):
     anagramwordlist = ndb.StringProperty(repeated=True)
     wordcount = ndb.IntegerProperty()
     lettercount = ndb.IntegerProperty()
-    orderedword = ndb.StringProperty()
     useremailid = ndb.UserProperty()
