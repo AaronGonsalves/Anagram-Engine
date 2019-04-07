@@ -48,11 +48,6 @@ class SubAnagramWord(webapp2.RequestHandler):
 
         if self.request.get('sub_search') == 'Search':
             getLexicographicalSubAnagramWord = self.request.get('sub_anagram_word_search')
-            lexicographicalOrderedAnagramWord = ReorderingWord(getLexicographicalSubAnagramWord)
-
-            keyName = getUserName.user_id()+lexicographicalOrderedAnagramWord
-            retriveAnagramWordKey = ndb.Key(MyAnagramDatabase, keyName)
-            retriveAnagramWord = retriveAnagramWordKey.get()
 
             subAnagramWordStore = []
             sizeOfSubAnagramWord = len(getLexicographicalSubAnagramWord)
